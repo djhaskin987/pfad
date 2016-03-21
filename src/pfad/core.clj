@@ -1,8 +1,6 @@
-(ns pfad.core
-  (:require [clojure.core.typed :as t]))
+(ns pfad.core)
 
 
-(t/ann ^:no-check checklist [(t/Seq t/AnyInteger) -> (t/AVec t/Bool)])
 (defn checklist [x]
   (let [c (count x)
         result (transient (vec (repeat c false)))]
@@ -11,16 +9,31 @@
        (assoc! result e true)))
    (persistent! result)))
 
-(t/ann ^:no-check search [(t/AVec t/Bool) -> t/AnyInteger])
+
+(defn minfrom [a n x]
+  (if (= 0 n)
+    a
+    (let [b (+ 1 (quot n 2) a)
+          {us true vs false} (group-by #(< % b) x)
+          m (count us)]
+      (if (= m (- b a))
+        (minfrom b (- n m) vs)
+        (minfrom a m us)))))
+
+(defn minfree
+  "Find the smallest natural number in a list."
+  [x]
+  (minfrom 0 (count x) x))
+
 (defn search [x]
   (first (keep-indexed #(when (not %2) %1) x)))
 
-(t/ann minfree [(t/Seq t/AnyInteger) -> t/AnyInteger])
-(defn minfree
-  "Find the smallest natural number in a set."
+(defn minfree-multi
+  "Find the smallest natural number in a set,
+  where the elements of the list are not guaranteed to be unique."
+
   [X]
   (let [search-result  (search (checklist X))]
     (if search-result
       search-result
       (count X))))
-
