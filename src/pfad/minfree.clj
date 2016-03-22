@@ -1,4 +1,4 @@
-(ns pfad.core)
+(ns pfad.minfree)
 
 
 (defn minfrom [a n x]

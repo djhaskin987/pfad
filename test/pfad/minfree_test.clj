@@ -1,8 +1,8 @@
-(ns pfad.core-test
+(ns pfad.minfree-test
   (:require [clojure.test :refer :all]
-            [pfad.core :refer :all]))
+            [pfad.minfree :refer :all]))
 
-(deftest minfree-test
+(deftest ^:minfree minfree-test
          (testing "Smallest number"
                   (is (= (minfree
                            '(8 23 9 0 12 11 1 10 13 7 41 4 14 21 5 17 3 19 2 6)) 15))
@@ -15,7 +15,7 @@
                   (is (= (minfree
                            '()) 0))))
 
-(deftest minfree-multi-test
+(deftest ^:minfree minfree-multi-test
          (testing "Smallest number"
                   (is (= (minfree-multi
                            '(8 23 9 0 12 11 1 10 13 7 41 4 14 21 5 17 3 19 2 6)) 15))
